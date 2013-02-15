@@ -1,9 +1,7 @@
 /*
  * spimodule.c - Python bindings for Linux SPI access through spidev
  * Copyright (C) 2009 Volker Thoms <unconnected@gmx.de>
- *
- * 05/01/2013 - Thomas Preston
- * Updated module to include more Python C extension stuff.
+ * Copyright (C) 2013 Thomas Preston <thomasmarkpreston@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
