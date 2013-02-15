@@ -1,5 +1,5 @@
 /*
- * spimodule.c - Python bindings for Linux SPI access through spidev
+ * spi.c - Python bindings for Linux SPI access through spidev
  * Copyright (C) 2009 Volker Thoms <unconnected@gmx.de>
  * Copyright (C) 2013 Thomas Preston <thomasmarkpreston@gmail.com>
  *
