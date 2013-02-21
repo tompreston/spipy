@@ -100,23 +100,41 @@ PyDoc_STRVAR(SPI_transfer_doc,
 
 static PyObject* SPI_transfer(SPI *self, PyObject *args)
 {
+	PyObject* obj;
+	PyObject* seq;
+
 	int ret;
 	uint8_t bits = 8;
 	uint16_t delay = 5;
 	uint32_t speed = 1000000;
 	int i = 0;
 
-	const char* tx_data;
-	char tx_buf[MAX_TRANSFER_LENGTH];
-	char rx_buf[MAX_TRANSFER_LENGTH];
+	long tx_char;
+	unsigned char tx_buf[MAX_TRANSFER_LENGTH];
+	unsigned char rx_buf[MAX_TRANSFER_LENGTH];
 	int tx_length;
 	int rx_length = 0;
 	int transfer_length;
 
-	PyArg_ParseTuple(args, "s#|i:transfer", &tx_data, &tx_length, &rx_length);
+	if (!PyArg_ParseTuple(args, "O|i:transfer", &obj, &rx_length))
+		return NULL;
+
+	seq = PySequence_Fast(obj, "Expected a sequence type");
+	tx_length = PySequence_Size(obj);
+	for (i = 0; i < tx_length; i++)
+	{
+		tx_char = PyInt_AsLong(PySequence_Fast_GET_ITEM(seq, i));
+		if(tx_char > 255 || tx_char < 0)
+		{
+			PyErr_SetString(PyExc_AttributeError, "Transmit data should be valid 8-bit data");
+			return NULL;
+		}
+		tx_buf[i] = (unsigned char)tx_char;
+	}
+	Py_DECREF(seq);
+
 #ifdef VERBOSE_MODE
-	printf ("Length of String List from Python: %d\n", length_list);
-	printf ("Read in String List from Python: %s\n", list);
+	printf ("Length of String List from Python: %d\n", tx_length);
 #endif
 
 	if (tx_length > rx_length)
@@ -128,13 +146,8 @@ static PyObject* SPI_transfer(SPI *self, PyObject *args)
 		transfer_length = rx_length;
 	}
 
-	i = 0;
-	while(i < tx_length)
-	{
-		tx_buf[i] = tx_data[i];
-		i++;
-	}
-	while(i < transfer_length)
+	i = tx_length;
+	while (i < transfer_length)
 	{
 		tx_buf[i] = 0;
 		i++;
@@ -172,8 +185,8 @@ static PyObject* SPI_transfer(SPI *self, PyObject *args)
 	}
 
 #ifdef VERBOSE_MODE
-//This part prints the Received data of the SPI transmission of equal size to TX
-//printf("Data that was received from SPI!!  RX:  ");
+	//This part prints the Received data of the SPI transmission of equal size to TX
+	//printf("Data that was received from SPI!!  RX:  ");
 
 	for (i = 0; i < transfer_length; i++)
 	{
