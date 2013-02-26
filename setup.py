@@ -11,5 +11,5 @@ setup(name='spipy',
 	author_email='thomasmarkpreston@gmail.com',
 	license='GPLv2',
 	url='http://pi.cs.man.ac.uk/interface.htm',
-	ext_modules=[Extension('spipy', ['spi.c'])],
+	ext_modules=[Extension('spipy', ['spipy.c'])],
 )
