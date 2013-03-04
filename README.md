@@ -1,3 +1,10 @@
+[PiFace Digital IO](https://github.com/tompreston/pifacedigitalio) no
+longer requires this module. I'm leaving it here in case anyone finds
+it useful. You can write to SPI directly from within Python 3.
+
+[Here](https://github.com/lthiery/SPI-Py) is another version by someone
+else.
+
 spipy
 =====
 A Python SPI module
