@@ -1,4 +1,4 @@
-[PiFace Digital IO](https://github.com/tompreston/pifacedigitalio) no
+[PiFace Digital IO](https://github.com/piface/pifacedigitalio) no
 longer requires this module. I'm leaving it here in case anyone finds
 it useful. You can write to SPI directly from within Python 3.
 
